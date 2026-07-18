@@ -137,23 +137,25 @@ p{max-width:64ch}
   .hero .cta-row{flex-direction:column;width:100%;max-width:340px}
   .hero .cta-row .btn{width:100%;justify-content:center}
 }
-/* frame do vídeo — 16:9 inteiro, sem crop, qualidade cheia */
+/* vídeo full no hero — 16:9 inteiro, sem moldura, sem degradê */
 .reel{
-  position:relative;z-index:2;width:min(1040px,100%);margin:56px auto 0;
-  border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;
-  border:1px solid var(--line);border-bottom:none;
-  box-shadow:0 -30px 80px rgba(0,0,0,.5);
+  position:relative;z-index:2;
+  width:calc(100% + 40px);margin:52px -20px 0;
   aspect-ratio:16/9;background:#0B0A07;
 }
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
-/* degradê no topo do vídeo — o hero "escorre" pra dentro do frame */
-.reel::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:34%;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(22,21,16,.94) 0%,rgba(22,21,16,.55) 45%,transparent 100%);
+
+/* info compacta do evento */
+.info{
+  display:flex;flex-direction:column;gap:5px;margin-top:26px;
+  font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;color:var(--muted);
 }
-.reel::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  box-shadow:inset 0 0 0 1px rgba(244,242,234,.04), inset 0 -60px 80px -40px rgba(17,16,9,.7);
+.info strong{color:var(--text);font-weight:600}
+.count{
+  margin-top:14px;
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);
+  font-variant-numeric:tabular-nums;
 }
 .hero .awards{
   display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;
@@ -451,12 +453,11 @@ section[id]{scroll-margin-top:72px}
     </div>
     <h1>O maior evento <em>wellness</em> do ano em Umuarama</h1>
     <p class="tag">Um corre de 5K aberto à cidade inteira que termina numa festa com 3 atrações. O aniversário de 1 ano da Running Gang.</p>
-    <div class="meta">
-      <span class="chip"><strong>29/08</strong> · sábado</span>
-      <span class="chip"><strong>Espaço Seu Jorge</strong> · Umuarama-PR</span>
-      <span class="chip"><strong>20h</strong> largada · <strong>21h</strong> festa</span>
-      <span class="chip"><strong>5K grátis</strong> + festa com ingresso</span>
+    <div class="info">
+      <span><strong>29/08</strong> · sábado · <strong>Espaço Seu Jorge</strong> · Umuarama-PR</span>
+      <span><strong>20h</strong> largada · <strong>21h</strong> festa · <strong>5K grátis</strong> + festa com ingresso</span>
     </div>
+    <div class="count" id="countdown" aria-live="off"></div>
     <div class="cta-row">
       <a class="btn" href="#pacotes">Quero patrocinar <span class="arr">↓</span></a>
       <a class="btn ghost" href="#evento">Conhecer o evento</a>
@@ -692,6 +693,22 @@ section[id]{scroll-margin-top:72px}
 (function(){
   "use strict";
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* contagem regressiva discreta até 29/08 20h */
+  var cd = document.getElementById("countdown");
+  if(cd){
+    var alvo = new Date("2026-08-29T20:00:00-03:00").getTime();
+    function tickCd(){
+      var d = alvo - Date.now();
+      if(d <= 0){ cd.textContent = "É hoje. Bora."; return; }
+      var dias = Math.floor(d/864e5);
+      var h = Math.floor(d%864e5/36e5);
+      var m = Math.floor(d%36e5/6e4);
+      cd.textContent = "Faltam " + dias + "d " + (h<10?"0":"")+h + "h " + (m<10?"0":"")+m + "m";
+    }
+    tickCd();
+    setInterval(tickCd, 30000);
+  }
 
   /* nav: CTA aparece só depois que o CTA do hero sai da tela */
   var nav = document.querySelector(".nav");
