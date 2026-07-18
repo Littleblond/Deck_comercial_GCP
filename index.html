@@ -615,6 +615,17 @@ section{padding:104px 0}
   "use strict";
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* autoplay do video do hero (fallback pra iOS modo economia / bloqueio de autoplay) */
+  var hv = document.querySelector(".hero video");
+  if(hv){
+    var tryPlay = function(){ var p = hv.play(); if(p && p.catch) p.catch(function(){}); };
+    tryPlay();
+    document.addEventListener("visibilitychange", function(){ if(!document.hidden) tryPlay(); });
+    addEventListener("touchstart", tryPlay, {once:true, passive:true});
+    addEventListener("click", tryPlay, {once:true});
+    addEventListener("scroll", tryPlay, {once:true, passive:true});
+  }
+
   /* reveal */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
