@@ -82,28 +82,66 @@ p{max-width:64ch}
 .rv2.in{clip-path:inset(0 0 0% 0)}
 @media (prefers-reduced-motion:reduce){.rv,.rv2{opacity:1;transform:none;clip-path:none;transition:none}}
 
+/* ---------- botões ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:.8rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;text-decoration:none;cursor:pointer;
+  background:var(--accent);color:#111009;
+  border:1px solid var(--accent);border-radius:999px;padding:15px 30px;
+  position:relative;overflow:hidden;isolation:isolate;
+  transition:color .35s cubic-bezier(.23,1,.32,1);
+}
+.btn::before{
+  content:"";position:absolute;inset:0;z-index:-1;background:#111009;
+  clip-path:ellipse(80% 50% at 50% 152%);
+  transition:clip-path .5s cubic-bezier(.86,0,.07,1);
+}
+.btn:hover{color:var(--accent)}
+.btn:hover::before{clip-path:ellipse(120% 90% at 50% 50%)}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.btn .arr{transition:transform .35s cubic-bezier(.23,1,.32,1)}
+.btn:hover .arr{transform:translateY(3px)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.ghost::before{background:var(--accent)}
+.btn.ghost:hover{color:#111009;border-color:var(--accent)}
+.btn.sm{padding:10px 20px;font-size:.72rem}
+
 /* ---------- hero ---------- */
 .hero{
   position:relative;margin:1rem;border-radius:var(--radius);overflow:hidden;
   background:var(--bg-2);
-  min-height:calc(100svh - 2rem);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:100px 20px 90px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:110px 20px 0;
 }
-.hero video{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-.hero .veil{
-  position:absolute;inset:0;z-index:1;
-  background:
-    linear-gradient(180deg,rgba(17,16,9,.55) 0%,rgba(17,16,9,.35) 40%,rgba(17,16,9,.78) 100%),
-    radial-gradient(120% 90% at 50% 110%,rgba(17,16,9,.85),transparent 60%);
-}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
 .hero .inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
 .hero .logo{
-  display:block;width:min(300px,62vw);height:auto;margin-bottom:30px;
-  filter:drop-shadow(0 30px 70px rgba(0,0,0,.6));
+  display:block;width:min(170px,40vw);height:auto;margin-bottom:26px;
+  filter:drop-shadow(0 20px 50px rgba(0,0,0,.6));
   will-change:transform;
+}
+.hero .cta-row{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px;
+}
+/* frame do vídeo — 16:9 inteiro, sem crop, qualidade cheia */
+.reel{
+  position:relative;z-index:2;width:min(1040px,100%);margin:56px auto 0;
+  border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;
+  border:1px solid var(--line);border-bottom:none;
+  box-shadow:0 -30px 80px rgba(0,0,0,.5);
+  aspect-ratio:16/9;background:#0B0A07;
+}
+.reel video{display:block;width:100%;height:100%;object-fit:cover}
+.reel .reel-tag{
+  position:absolute;left:16px;bottom:14px;z-index:2;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text);background:rgba(17,16,9,.6);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:999px;padding:7px 14px;
+}
+.reel::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(244,242,234,.04), inset 0 -60px 80px -40px rgba(17,16,9,.7);
 }
 .hero .awards{
   display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;
@@ -117,7 +155,7 @@ p{max-width:64ch}
 }
 .hero .awards strong{color:var(--text);font-weight:600;margin-right:.4em}
 .hero h1{
-  font-size:clamp(2.8rem,8.4vw,5.8rem);text-transform:uppercase;margin:0 auto 18px;max-width:14ch;
+  font-size:clamp(2.4rem,6.6vw,4.6rem);text-transform:uppercase;margin:0 auto 16px;max-width:16ch;
 }
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero .tag{font-size:1.13rem;color:var(--muted);max-width:46ch;margin:0 auto}
@@ -160,6 +198,7 @@ p{max-width:64ch}
 
 section{padding:104px 0}
 @media (max-width:640px){section{padding:76px 0}}
+section[id]{scroll-margin-top:72px}
 
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
@@ -312,6 +351,20 @@ section{padding:104px 0}
   color:var(--muted);border-top:1px solid var(--line);padding-top:18px;
 }
 
+/* ---------- escassez ---------- */
+.scarcity{
+  display:inline-flex;align-items:center;gap:10px;margin-top:18px;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(242,177,39,.35);border-radius:999px;
+  padding:9px 18px;background:var(--accent-dim);
+}
+.scarcity .dot{
+  width:8px;height:8px;border-radius:99px;background:var(--accent);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
+@media (prefers-reduced-motion:reduce){.scarcity .dot{animation:none}}
+
 /* ---------- brands ---------- */
 .brands{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
 .brands .chip{color:var(--text);background:var(--surface)}
@@ -367,15 +420,12 @@ section{padding:104px 0}
 
 <nav class="nav">
   <img class="rg" src="assets/logo-rg-white.png" alt="Running Gang">
-  <span class="chip"><strong>29/08</strong> · Umuarama-PR</span>
+  <a class="btn sm" href="#pacotes">Quero patrocinar</a>
 </nav>
 
 <!-- HERO -->
 <header class="hero">
-  <video autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true">
-    <source src="assets/hero.mp4" type="video/mp4">
-  </video>
-  <div class="veil" aria-hidden="true"></div>
+  <canvas id="fx-hero" aria-hidden="true"></canvas>
   <div class="inner">
     <img class="logo" id="hero-logo" alt="Gang Corre Party" src="assets/logo-gcp-white.png">
     <div class="awards">
@@ -391,8 +441,17 @@ section{padding:104px 0}
       <span class="chip"><strong>20h</strong> largada · <strong>21h</strong> festa</span>
       <span class="chip"><strong>5K grátis</strong> + festa com ingresso</span>
     </div>
+    <div class="cta-row">
+      <a class="btn" href="#pacotes">Quero patrocinar <span class="arr">↓</span></a>
+      <a class="btn ghost" href="#evento">Conhecer o evento</a>
+    </div>
   </div>
-  <div class="scroll-hint">Role para descobrir</div>
+  <figure class="reel">
+    <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+      <source src="assets/hero.mp4" type="video/mp4">
+    </video>
+    <figcaption class="reel-tag">A Gang ao vivo · som off</figcaption>
+  </figure>
 </header>
 
 <!-- MARQUEE -->
@@ -406,7 +465,7 @@ section{padding:104px 0}
 <section>
   <div class="container narrow">
     <div class="rv">
-      <div class="eyebrow">Quem somos</div>
+      <div class="eyebrow">01 · Quem somos</div>
       <h2>A 1ª comunidade esportiva de Umuarama</h2>
       <p class="lead">Em menos de 1 ano, a Running Gang virou o maior movimento de wellness da região — 100% no orgânico, sem 1 real de mídia paga.</p>
     </div>
@@ -425,7 +484,7 @@ section{padding:104px 0}
 <div class="stack-wrap">
   <div class="container narrow">
     <div class="stack-head rv">
-      <div class="eyebrow">Por que patrocinar</div>
+      <div class="eyebrow">02 · Por que patrocinar</div>
       <h2>Uma marca que você pode contar</h2>
       <p class="sub">O que sua marca leva ao entrar na experiência do Gang Corre Party.</p>
     </div>
@@ -455,10 +514,10 @@ section{padding:104px 0}
 </div>
 
 <!-- O EVENTO -->
-<section>
+<section id="evento">
   <div class="container narrow">
     <div class="rv">
-      <div class="eyebrow">O evento</div>
+      <div class="eyebrow">03 · O evento</div>
       <h2>Um evento, dois momentos</h2>
       <p class="lead">O corre gratuito atrai um público muito maior do que um evento pago conseguiria — e esse público chega na porta da festa no auge da energia. O ingresso é a conversão natural.</p>
     </div>
@@ -501,7 +560,10 @@ section{padding:104px 0}
 <!-- QUOTE -->
 <section style="padding-top:0">
   <div class="container narrow">
-    <div class="quote-card rv2">
+    <div class="rv">
+      <div class="eyebrow">04 · Quem já ativou com a Gang</div>
+    </div>
+    <div class="quote-card rv2" style="margin-top:8px">
       <div class="glow" aria-hidden="true"></div>
       <img class="rg-mark" src="assets/logo-rg-white.png" alt="" aria-hidden="true">
       <p>Estimativa era 200 inscritos. Vieram mais de 700.</p>
@@ -518,12 +580,13 @@ section{padding:104px 0}
 </section>
 
 <!-- PACOTES -->
-<section style="padding-top:0">
+<section id="pacotes" style="padding-top:0">
   <div class="container narrow">
     <div class="rv">
-      <div class="eyebrow">Patrocínio</div>
+      <div class="eyebrow">05 · Patrocínio</div>
       <h2>Dois jeitos de colocar sua marca dentro</h2>
       <p class="lead">Formatos pensados pra marcas locais e regionais — do primeiro contato com a comunidade até a experiência completa no dia do evento.</p>
+      <p class="scarcity"><span class="dot"></span>Vagas limitadas — curadoria de marcas por edição</p>
     </div>
     <div class="plans rv">
       <div class="plan">
@@ -563,7 +626,7 @@ section{padding:104px 0}
 <section style="padding-top:0">
   <div class="container narrow">
     <div class="rv">
-      <div class="eyebrow">Perguntas frequentes</div>
+      <div class="eyebrow">06 · Perguntas frequentes</div>
       <h2>O que os patrocinadores perguntam</h2>
     </div>
     <div class="faq rv">
@@ -727,6 +790,7 @@ section{padding:104px 0}
     }
     frame();
   }
+  fluid("fx-hero");
   fluid("fx-final");
 })();
 </script>
