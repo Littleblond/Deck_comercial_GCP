@@ -145,12 +145,17 @@ p{max-width:64ch}
 }
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
 
-/* info compacta do evento */
+/* info compacta do evento — cada item quebra inteiro, nunca no meio */
 .info{
-  display:flex;flex-direction:column;gap:5px;margin-top:26px;
+  display:flex;flex-wrap:wrap;justify-content:center;
+  column-gap:20px;row-gap:7px;margin-top:26px;max-width:560px;
   font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;color:var(--muted);
 }
+.info span{white-space:nowrap}
 .info strong{color:var(--text);font-weight:600}
+@media (max-width:640px){
+  .info{flex-direction:column;align-items:center;row-gap:8px;font-size:.74rem}
+}
 .count{
   margin-top:14px;
   font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.16em;
@@ -454,8 +459,10 @@ section[id]{scroll-margin-top:72px}
     <h1>O maior evento <em>wellness</em> do ano em Umuarama</h1>
     <p class="tag">Um corre de 5K aberto à cidade inteira que termina numa festa com 3 atrações. O aniversário de 1 ano da Running Gang.</p>
     <div class="info">
-      <span><strong>29/08</strong> · sábado · <strong>Espaço Seu Jorge</strong> · Umuarama-PR</span>
-      <span><strong>20h</strong> largada · <strong>21h</strong> festa · <strong>5K grátis</strong> + festa com ingresso</span>
+      <span><strong>29/08</strong> · sábado</span>
+      <span><strong>Espaço Seu Jorge</strong> · Umuarama-PR</span>
+      <span><strong>20h</strong> largada · <strong>21h</strong> festa</span>
+      <span><strong>5K grátis</strong> + festa com ingresso</span>
     </div>
     <div class="count" id="countdown" aria-live="off"></div>
     <div class="cta-row">
@@ -698,16 +705,18 @@ section[id]{scroll-margin-top:72px}
   var cd = document.getElementById("countdown");
   if(cd){
     var alvo = new Date("2026-08-29T20:00:00-03:00").getTime();
+    function p2(n){ return (n<10?"0":"")+n; }
     function tickCd(){
       var d = alvo - Date.now();
       if(d <= 0){ cd.textContent = "É hoje. Bora."; return; }
       var dias = Math.floor(d/864e5);
       var h = Math.floor(d%864e5/36e5);
       var m = Math.floor(d%36e5/6e4);
-      cd.textContent = "Faltam " + dias + "d " + (h<10?"0":"")+h + "h " + (m<10?"0":"")+m + "m";
+      var s = Math.floor(d%6e4/1e3);
+      cd.textContent = "Faltam " + dias + "d " + p2(h) + "h " + p2(m) + "m " + p2(s) + "s";
     }
     tickCd();
-    setInterval(tickCd, 30000);
+    setInterval(tickCd, 1000);
   }
 
   /* nav: CTA aparece só depois que o CTA do hero sai da tela */
