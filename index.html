@@ -144,6 +144,26 @@ p{max-width:64ch}
   aspect-ratio:16/9;background:#0B0A07;
 }
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
+/* controles do vídeo: som + like */
+.reel-ui{
+  position:absolute;right:14px;bottom:14px;z-index:3;
+  display:flex;gap:8px;align-items:center;
+}
+.vbtn{
+  display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text);
+  background:rgba(17,16,9,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(244,242,234,.18);border-radius:999px;padding:9px 15px;
+  transition:border-color .3s,background .3s,transform .3s cubic-bezier(.23,1,.32,1);
+  font-variant-numeric:tabular-nums;
+}
+.vbtn:hover{border-color:var(--accent);transform:translateY(-2px)}
+.vbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.vbtn.liked{border-color:var(--accent);color:var(--accent);background:rgba(242,177,39,.14)}
+.vbtn .hrt{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.vbtn.liked .hrt{transform:scale(1.25)}
+@media (max-width:640px){.reel-ui{right:10px;bottom:10px}.vbtn{padding:8px 12px;font-size:.68rem}}
 
 /* info compacta do evento — cada item quebra inteiro, nunca no meio */
 .info{
@@ -471,9 +491,15 @@ section[id]{scroll-margin-top:72px}
     </div>
   </div>
   <figure class="reel">
-    <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+    <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
       <source src="assets/hero.mp4" type="video/mp4">
     </video>
+    <div class="reel-ui">
+      <button class="vbtn" id="btn-like" type="button" aria-label="Curtir">
+        <span class="hrt" aria-hidden="true">🤍</span><span id="like-count">···</span>
+      </button>
+      <button class="vbtn" id="btn-som" type="button" aria-label="Ativar som do vídeo">🔇 Ativar som</button>
+    </div>
   </figure>
 </header>
 
@@ -700,6 +726,45 @@ section[id]{scroll-margin-top:72px}
 (function(){
   "use strict";
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* som do vídeo: começa mudo, usuário libera */
+  var sv = document.getElementById("hero-video");
+  var sbtn = document.getElementById("btn-som");
+  if(sv && sbtn){
+    sbtn.addEventListener("click", function(){
+      sv.muted = !sv.muted;
+      if(!sv.muted){ sv.volume = 1; var p = sv.play(); if(p && p.catch) p.catch(function(){}); }
+      sbtn.textContent = sv.muted ? "🔇 Ativar som" : "🔊 Som ligado";
+      sbtn.setAttribute("aria-label", sv.muted ? "Ativar som do vídeo" : "Silenciar vídeo");
+    });
+  }
+
+  /* like real (contador global no Supabase — só o número, nenhum dado pessoal) */
+  var SB_URL = "https://asppjvxeqpfsonknukla.supabase.co";
+  var SB_KEY = "sb_publishable_K8nSpB8AP57ZlTIgGI1ANQ_pmNk4o3p";
+  var likeBtn = document.getElementById("btn-like");
+  var likeCount = document.getElementById("like-count");
+  function sbRpc(fn){
+    return fetch(SB_URL + "/rest/v1/rpc/" + fn, {
+      method:"POST",
+      headers:{ "apikey":SB_KEY, "Authorization":"Bearer " + SB_KEY, "Content-Type":"application/json" },
+      body:"{}"
+    }).then(function(r){ return r.json(); });
+  }
+  if(likeBtn && likeCount){
+    var já = localStorage.getItem("gcp_liked") === "1";
+    if(já){ likeBtn.classList.add("liked"); likeBtn.querySelector(".hrt").textContent = "🧡"; }
+    sbRpc("get_likes").then(function(n){ likeCount.textContent = (typeof n === "number") ? n : "0"; })
+      .catch(function(){ likeCount.textContent = "0"; });
+    likeBtn.addEventListener("click", function(){
+      if(localStorage.getItem("gcp_liked") === "1") return;
+      localStorage.setItem("gcp_liked", "1");
+      likeBtn.classList.add("liked");
+      likeBtn.querySelector(".hrt").textContent = "🧡";
+      likeCount.textContent = (parseInt(likeCount.textContent,10) || 0) + 1;
+      sbRpc("add_like").then(function(n){ if(typeof n === "number") likeCount.textContent = n; }).catch(function(){});
+    });
+  }
 
   /* contagem regressiva discreta até 29/08 20h */
   var cd = document.getElementById("countdown");
