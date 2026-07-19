@@ -380,10 +380,17 @@ section[id]{scroll-margin-top:72px}
   font-variant-numeric:tabular-nums;
 }
 .plan .save{
-  display:inline-block;margin-bottom:22px;font-family:var(--mono);font-size:.68rem;
+  display:inline-block;margin-bottom:10px;font-family:var(--mono);font-size:.68rem;
   font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
   background:var(--accent-dim);border-radius:6px;padding:5px 10px;
 }
+.plan .promo-cd{
+  display:flex;align-items:center;gap:8px;margin-bottom:22px;
+  font-family:var(--mono);font-size:.72rem;color:var(--muted);
+}
+.plan .promo-cd .dot{width:7px;height:7px;border-radius:99px;background:var(--accent);animation:pulse 1.8s ease-in-out infinite;flex:none}
+.plan .promo-cd b{color:var(--accent);font-variant-numeric:tabular-nums;font-weight:600}
+@media (prefers-reduced-motion:reduce){.plan .promo-cd .dot{animation:none}}
 
 /* ancoragem de valor */
 .value-stack{
@@ -702,8 +709,9 @@ section[id]{scroll-margin-top:72px}
       <div class="plan featured">
         <div class="k">Pacote 2</div>
         <h3>Ativação</h3>
-        <div class="price"><span class="from">a partir de</span><span class="old">R$ 8.000</span><span class="val">R$ 3.000</span></div>
+        <div class="price" id="preco-ativacao"><span class="from">a partir de</span><span class="old" id="preco-riscado">R$ 8.000</span><span class="val" id="preco-real">R$ 3.000</span></div>
         <span class="save">Você paga o mesmo que só 200 leads frios custariam em anúncio</span>
+        <div class="promo-cd" id="promo-cd"><span class="dot"></span><span id="promo-cd-txt">Preço promocional até 28/07</span></div>
         <p class="para-quem">Pra marca que quer vender, captar contato e viver a experiência com o público.</p>
         <ul>
           <li>Tudo do pacote Digital</li>
@@ -953,6 +961,28 @@ section[id]{scroll-margin-top:72px}
     }
     frame();
   }
+  /* promoção do pacote Ativação: R$3.000 até 28/07, depois volta pro valor normal */
+  (function(){
+    var alvo = new Date("2026-07-28T23:59:59-03:00").getTime();
+    var cd = document.getElementById("promo-cd-txt");
+    function p2(n){ return (n<10?"0":"")+n; }
+    function tick(){
+      var d = alvo - Date.now();
+      if(d <= 0){
+        document.getElementById("preco-riscado").style.display = "none";
+        document.getElementById("preco-real").textContent = "R$ 8.000";
+        document.getElementById("promo-cd").style.display = "none";
+        document.querySelector(".plan.featured .save").style.display = "none";
+        clearInterval(iv);
+        return;
+      }
+      var dias = Math.floor(d/864e5), h = Math.floor(d%864e5/36e5), m = Math.floor(d%36e5/6e4), s = Math.floor(d%6e4/1e3);
+      cd.innerHTML = "Preço promocional até 28/07 — acaba em <b>" + dias + "d " + p2(h) + "h " + p2(m) + "m " + p2(s) + "s</b>";
+    }
+    tick();
+    var iv = setInterval(tick, 1000);
+  })();
+
   fluid("fx-hero");
   fluid("fx-final");
 })();
