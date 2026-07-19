@@ -366,13 +366,50 @@ section[id]{scroll-margin-top:72px}
 }
 .plan.featured .k{color:var(--accent)}
 .plan h3{font-size:2.4rem;text-transform:uppercase;margin-bottom:8px}
-.plan .price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.plan .price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .plan .price .from{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
   text-transform:uppercase;color:var(--muted);
 }
+.plan .price .old{
+  font-family:var(--mono);font-size:1.15rem;color:var(--muted);
+  text-decoration:line-through;text-decoration-color:var(--muted);
+}
 .plan .price .val{
   font-family:var(--display);font-size:2.5rem;line-height:1;color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+.plan .save{
+  display:inline-block;margin-bottom:22px;font-family:var(--mono);font-size:.68rem;
+  font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+  background:var(--accent-dim);border-radius:6px;padding:5px 10px;
+}
+
+/* ancoragem de valor */
+.value-stack{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:32px 30px;margin:40px 0 4px;
+}
+.value-stack .vs-head{
+  font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:18px;
+}
+.vs-list{list-style:none;display:grid;gap:0;padding:0}
+.vs-list li{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding:13px 0;border-top:1px solid var(--line-soft);font-size:.94rem;
+}
+.vs-list li:first-child{border-top:none}
+.vs-list li b{
+  font-variant-numeric:tabular-nums;color:var(--text);white-space:nowrap;font-weight:600;
+}
+.vs-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-top:16px;padding-top:18px;border-top:2px solid var(--line);
+}
+.vs-total span{font-size:.96rem;color:var(--muted)}
+.vs-total b{
+  font-family:var(--display);font-size:2rem;color:var(--accent);
   font-variant-numeric:tabular-nums;
 }
 .plan .para-quem{font-size:.94rem;color:var(--muted);margin-bottom:26px}
@@ -637,6 +674,16 @@ section[id]{scroll-margin-top:72px}
       <p class="lead">Formatos pensados pra marcas locais e regionais — do primeiro contato com a comunidade até a experiência completa no dia do evento.</p>
       <p class="scarcity"><span class="dot"></span>Vagas limitadas — curadoria de marcas por edição</p>
     </div>
+    <div class="value-stack rv">
+      <div class="vs-head">Quanto custaria montar isso por fora</div>
+      <ul class="vs-list">
+        <li><span>450+ leads qualificados via anúncio pago</span><b>R$ 6.750 a R$ 18.000</b></li>
+        <li><span>Estande + ativação de marca num evento desse porte</span><b>R$ 5.000+</b></li>
+        <li><span>Cobertura profissional em foto e vídeo</span><b>R$ 1.500+</b></li>
+        <li><span>Alcance equivalente em mídia paga <em style="color:var(--muted);font-style:normal">(benchmark do nosso Media Kit)</em></span><b>R$ 14.000+</b></li>
+      </ul>
+      <div class="vs-total"><span>Total pra montar isso sozinho</span><b>R$ 27.000+</b></div>
+    </div>
     <div class="plans rv">
       <div class="plan">
         <div class="k">Pacote 1</div>
@@ -655,7 +702,8 @@ section[id]{scroll-margin-top:72px}
       <div class="plan featured">
         <div class="k">Pacote 2</div>
         <h3>Ativação</h3>
-        <div class="price"><span class="from">a partir de</span><span class="val">R$ 3.000</span></div>
+        <div class="price"><span class="from">a partir de</span><span class="old">R$ 8.000</span><span class="val">R$ 3.000</span></div>
+        <span class="save">Você paga o mesmo que só 200 leads frios custariam em anúncio</span>
         <p class="para-quem">Pra marca que quer vender, captar contato e viver a experiência com o público.</p>
         <ul>
           <li>Tudo do pacote Digital</li>
