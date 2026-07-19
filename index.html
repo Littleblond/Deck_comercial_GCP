@@ -419,6 +419,19 @@ section[id]{scroll-margin-top:72px}
   font-family:var(--display);font-size:2rem;color:var(--accent);
   font-variant-numeric:tabular-nums;
 }
+.vs-note{margin-top:16px;font-size:.88rem;color:var(--muted)}
+
+@media (max-width:520px){
+  .plan{padding:28px 22px}
+  .plan h3{font-size:2rem}
+  .plan .price{flex-direction:column;align-items:flex-start;gap:3px}
+  .plan .price .val{font-size:2.1rem}
+  .value-stack{padding:26px 22px}
+  .vs-list li{flex-direction:column;align-items:flex-start;gap:5px;padding:14px 0}
+  .vs-list li b{font-size:1.05rem}
+  .vs-total{flex-direction:column;align-items:flex-start;gap:6px}
+  .vs-total b{font-size:2.2rem}
+}
 .plan .para-quem{font-size:.94rem;color:var(--muted);margin-bottom:26px}
 .plan ul{list-style:none;display:grid;margin-bottom:26px}
 .plan li{
@@ -682,14 +695,14 @@ section[id]{scroll-margin-top:72px}
       <p class="scarcity"><span class="dot"></span>Vagas limitadas, curadoria de marcas por edição</p>
     </div>
     <div class="value-stack rv">
-      <div class="vs-head">Quanto custaria montar isso por fora</div>
+      <div class="vs-head">O que você pagaria se comprasse cada coisa separada</div>
       <ul class="vs-list">
-        <li><span>450+ leads qualificados via anúncio pago</span><b>R$ 6.750 a R$ 18.000</b></li>
-        <li><span>Estande + ativação de marca num evento desse porte</span><b>R$ 5.000+</b></li>
-        <li><span>Cobertura profissional em foto e vídeo</span><b>R$ 1.500+</b></li>
-        <li><span>Alcance equivalente em mídia paga <em style="color:var(--muted);font-style:normal">(benchmark do nosso Media Kit)</em></span><b>R$ 14.000+</b></li>
+        <li><span>450+ leads qualificados via anúncio pago</span><b>R$ 6.000</b></li>
+        <li><span>Estande e ativação de marca num evento desse porte</span><b>R$ 2.500</b></li>
+        <li><span>Cobertura profissional em foto e vídeo do evento</span><b>R$ 1.500</b></li>
       </ul>
-      <div class="vs-total"><span>Total pra montar isso sozinho</span><b>R$ 27.000+</b></div>
+      <div class="vs-total"><span>Total pra montar isso tudo sozinho</span><b>R$ 10.000</b></div>
+      <p class="vs-note">No pacote Ativação, tudo isso já vem incluso, por uma fração desse valor.</p>
     </div>
     <div class="plans rv">
       <div class="plan">
