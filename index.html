@@ -701,7 +701,7 @@ section[id]{scroll-margin-top:72px}
     <div class="value-stack rv">
       <div class="vs-head">Faz a conta</div>
       <h3 class="vs-title">Quanto custaria contratar tudo isso separado?</h3>
-      <p class="vs-sub">Valores médios de mercado pra cada entrega que o patrocínio de ativação já inclui:</p>
+      <p class="vs-sub">Valores médios de mercado pra cada entrega que o pacote Ativação já inclui:</p>
       <ul class="vs-list">
         <li><span>450+ leads qualificados via anúncio pago</span><b>R$ 6.000</b></li>
         <li><span>Estande e ativação de marca num evento desse porte</span><b>R$ 2.500</b></li>
@@ -710,11 +710,32 @@ section[id]{scroll-margin-top:72px}
         <li><span>2 posts collab num perfil com 1M+ de impressões</span><b>R$ 1.500</b></li>
       </ul>
       <div class="vs-total"><span>Total contratando separado</span><b>R$ 14.000</b></div>
-      <p class="vs-note">No pacote Ativação, tudo isso vem junto, por menos de um quarto desse valor.</p>
+      <p class="vs-note">No pacote Ativação, tudo isso vem junto por <b style="color:var(--accent)">R$ 3.000</b>, menos de um quarto desse valor.</p>
     </div>
     <div class="plans rv">
+      <div class="plan featured">
+        <div class="k">Recomendado</div>
+        <h3>Ativação</h3>
+        <div class="price stacked" id="preco-ativacao">
+          <span class="from">a partir de</span>
+          <span class="strike-line" id="preco-riscado">de <span class="old">R$ 14.000</span> por</span>
+          <span class="val" id="preco-real">R$ 3.000</span>
+        </div>
+        <span class="save">Economia de R$ 11.000 no lançamento</span>
+        <div class="promo-cd" id="promo-cd"><span class="dot"></span><span id="promo-cd-txt">Só até 28/07</span></div>
+        <p class="para-quem">Pra marca que quer vender, captar contato e viver a experiência com o público.</p>
+        <ul>
+          <li>Tudo do pacote Digital (logo aqui embaixo)</li>
+          <li>Espaço de ativação física dentro do evento <em>estande / experiência da marca no meio das 450 pessoas</em></li>
+          <li>Lista completa de leads no dia seguinte <em>nome, WhatsApp e e-mail de inscritos do corre + participantes da festa</em></li>
+          <li>Sua ativação vira conteúdo <em>gravada e publicada durante e depois do evento</em></li>
+          <li>Agenda semanal de reels e ativações digitais até 29/08 <em>começa assim que o patrocínio é confirmado</em></li>
+          <li>Indicação de fornecedores parceiros com desconto <em>produção da estrutura por conta da marca</em></li>
+        </ul>
+        <div class="foot">Ativações maiores (naming, palco, espaço exclusivo) sob consulta · condições negociáveis com a equipe comercial</div>
+      </div>
       <div class="plan">
-        <div class="k">Pacote 1</div>
+        <div class="k">Entrada</div>
         <h3>Digital</h3>
         <div class="price"><span class="val">R$ 1.300</span></div>
         <p class="para-quem">Pra marca que quer aparecer junto do evento sem operar nada no dia.</p>
@@ -723,30 +744,10 @@ section[id]{scroll-margin-top:72px}
           <li>2 posts collab no Instagram <em>@runninggang_br + perfil da marca, alcance somado dos dois perfis</em></li>
           <li>Presença no material gráfico de divulgação</li>
           <li>Associação ao maior evento wellness do ano na cidade</li>
-          <li class="off">Não inclui lista de leads nem ativação física</li>
+          <li class="off">Não inclui lista de leads</li>
+          <li class="off">Não inclui ativação física no evento</li>
         </ul>
         <div class="foot">Condições e formatos negociáveis com a equipe comercial</div>
-      </div>
-      <div class="plan featured">
-        <div class="k">Pacote 2</div>
-        <h3>Ativação</h3>
-        <div class="price stacked" id="preco-ativacao">
-          <span class="from">a partir de</span>
-          <span class="strike-line" id="preco-riscado">de <span class="old">R$ 8.000</span> por</span>
-          <span class="val" id="preco-real">R$ 3.000</span>
-        </div>
-        <span class="save">Economia de R$ 5.000 no lançamento</span>
-        <div class="promo-cd" id="promo-cd"><span class="dot"></span><span id="promo-cd-txt">Só até 28/07</span></div>
-        <p class="para-quem">Pra marca que quer vender, captar contato e viver a experiência com o público.</p>
-        <ul>
-          <li>Tudo do pacote Digital</li>
-          <li>Espaço de ativação física dentro do evento <em>estande / experiência da marca no meio das 450 pessoas</em></li>
-          <li>Lista completa de leads no dia seguinte <em>nome, WhatsApp e e-mail de inscritos do corre + participantes da festa</em></li>
-          <li>Sua ativação vira conteúdo <em>gravada e publicada durante e depois do evento</em></li>
-          <li>Agenda semanal de reels e ativações digitais até 29/08 <em>começa assim que o patrocínio é confirmado</em></li>
-          <li>Indicação de fornecedores parceiros com desconto <em>produção da estrutura por conta da marca</em></li>
-        </ul>
-        <div class="foot">Ativações maiores (naming, palco, espaço exclusivo) sob consulta · condições negociáveis com a equipe comercial</div>
       </div>
     </div>
   </div>
@@ -995,7 +996,7 @@ section[id]{scroll-margin-top:72px}
       var d = alvo - Date.now();
       if(d <= 0){
         document.getElementById("preco-riscado").style.display = "none";
-        document.getElementById("preco-real").textContent = "R$ 8.000";
+        document.getElementById("preco-real").textContent = "R$ 14.000";
         document.getElementById("promo-cd").style.display = "none";
         document.querySelector(".plan.featured .save").style.display = "none";
         clearInterval(iv);
